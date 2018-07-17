@@ -2,7 +2,7 @@
 //    Copyright © 2016-2017 - Dark Bond, Inc.  All Rights Reserved.
 // </copyright>
 // <author>Donald Roy Airey</author>
-namespace GammaFour.Tools
+namespace GammaFour.VisualStudio
 {
     using System;
     using System.Runtime.InteropServices;

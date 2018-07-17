@@ -2,7 +2,7 @@
 //    Copyright © 2016-2017 - Dark Bond, Inc.  All Rights Reserved.
 // </copyright>
 // <author>Donald Roy Airey</author>
-namespace GammaFour.Tools
+namespace GammaFour.VisualStudioPackage
 {
     using System;
     using System.IO;
@@ -10,6 +10,7 @@ namespace GammaFour.Tools
     using System.Text;
     using System.Xml.Linq;
     using GammaFour.ResourceGenerator;
+    using GammaFour.VisualStudio;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp.Formatting;
     using Microsoft.CodeAnalysis.Formatting;
@@ -20,13 +21,18 @@ namespace GammaFour.Tools
     /// The data model generator for the service.
     /// </summary>
     [ComVisible(true)]
-    [Guid("AFD180A2-A1F9-4429-9EE2-4118DD669960")]
+    [Guid(PackageGuid)]
     [CodeGeneratorRegistration(typeof(ResourceGenerator), nameof(ResourceGenerator), "{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}", GeneratesDesignTimeSource = true)]
     [CodeGeneratorRegistration(typeof(ResourceGenerator), nameof(ResourceGenerator), "{9A19103F-16F7-4668-BE54-9A1E7A4F7556}", GeneratesDesignTimeSource = true)]
     [CodeGeneratorRegistration(typeof(ResourceGenerator), nameof(ResourceGenerator), "{694DD9B6-B865-4C5B-AD85-86356E9C88DC}", GeneratesDesignTimeSource = true)]
     [ProvideObject(typeof(ResourceGenerator))]
     public sealed class ResourceGenerator : BaseCodeGeneratorWithSite
     {
+        /// <summary>
+        /// The package identifier.
+        /// </summary>
+        private const string PackageGuid = "D9626B4A-4C28-4764-9B0A-F08E3EE2754A";
+
         /// <summary>
         /// Gets the default extension for this generator
         /// </summary>
@@ -45,13 +51,13 @@ namespace GammaFour.Tools
         protected override byte[] GenerateCode(string inputFileContent)
         {
             // This schema describes the data model that is to be generated.
-            XDocument dataModelSchema = XDocument.Parse(inputFileContent);
+            XDocument xDocument = XDocument.Parse(inputFileContent);
 
             // Extract the name of the target class from the input file name.
             string className = Path.GetFileNameWithoutExtension(this.InputFilePath);
 
             // This creates the compilation unit from the schema.
-            CompilationUnit compilationUnit = new CompilationUnit(dataModelSchema, className, this.TargetNamespace);
+            CompilationUnit compilationUnit = new CompilationUnit(xDocument, className, this.TargetNamespace);
 
             // A workspace is needed in order to turn the compilation unit into code.
             AdhocWorkspace adhocWorkspace = new AdhocWorkspace();

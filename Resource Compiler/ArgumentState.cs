@@ -2,7 +2,7 @@
 //    Copyright © 2016-2017 - Dark Bond, Inc.  All Rights Reserved.
 // </copyright>
 // <author>Donald Roy Airey</author>
-namespace GammaFour.Tools
+namespace GammaFour.VisualStudio
 {
     /// <summary>
     /// These are the parsing states used to read the arguments on the command line.
