@@ -7,6 +7,7 @@ namespace GammaFour.ResourceGenerator.Class
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Xml;
     using System.Xml.Linq;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
@@ -245,7 +246,74 @@ namespace GammaFour.ResourceGenerator.Class
             // Add a property for every string resource.
             foreach (XElement xElement in this.xDocument.Root.Elements(XName.Get("data")))
             {
-                properties.Add(new StringProperty(this.Name, xElement.Attribute(XName.Get("name")).Value));
+                // Only add strings that have actual values
+                var originalStringElement = xElement.Descendants(XName.Get("value")).FirstOrDefault();
+                if (originalStringElement != null)
+                {
+                    string originalString = null;
+                    using (XmlReader reader = originalStringElement.CreateReader())
+                    {
+                        if (reader.Read())
+                            originalString = reader.ReadInnerXml();
+                    }
+
+                    // Only add strings that have actual values
+                    if (!string.IsNullOrWhiteSpace(originalString))
+                    {
+                        // Determine if we are dealing with a template string or a regular phrase
+                        if (originalString.Contains("{{") && originalString.Contains("}}"))
+                        {
+                            // We're dealing with a template string
+
+                            // Get all the parameters
+                            var @params = new List<string>();
+
+                            int numHandlebars = 0;
+                            string currentParamToken = string.Empty;
+                            foreach (var c in originalString)
+                            {
+                                bool inToken = numHandlebars == 2;
+                                if (inToken)
+                                {
+                                    // We are still in the template parameter token
+                                    currentParamToken += c;
+                                }
+                                else if (numHandlebars == 0 && !string.IsNullOrWhiteSpace(currentParamToken))
+                                {
+                                    // We have just exited the template paramter token
+                                    var cleaned = currentParamToken.Substring(0, currentParamToken.Length - 1).Trim();
+                                    @params.Add(cleaned);
+                                    currentParamToken = string.Empty;
+                                }
+
+                                if (c == '{')
+                                {
+                                    // We might be entering a template parameter token
+                                    numHandlebars++;
+                                }
+                                else if (c == '}')
+                                {
+                                    // We might be exiting a template parameter token
+                                    numHandlebars--;
+                                }
+                                else if (!inToken)
+                                {
+                                    numHandlebars = 0;
+                                    
+                                    // This is just in case, because this is being written without any testing :) 
+                                    currentParamToken = string.Empty;
+                                }
+                            }
+
+                            properties.Add(new StringMember(this.Name, xElement.Attribute(XName.Get("name")).Value, @params, originalString));
+                        }
+                        else
+                        {
+                            // Regular phrase:
+                            properties.Add(new StringProperty(this.Name, xElement.Attribute(XName.Get("name")).Value, originalString));
+                        }
+                    }
+                }
             }
 
             // Alphabetize and add the fields as members of the class.

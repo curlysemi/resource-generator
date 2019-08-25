@@ -46,8 +46,10 @@
     <Compile Include="Class\Class.cs" />
     <Compile Include="Class\Constructor.cs" />
     <Compile Include="Class\CultureInfoProperty.cs" />
+    <Compile Include="Class\DocumentationHelper.cs" />
     <Compile Include="Class\ResourceManagerField.cs" />
     <Compile Include="Class\ResourceManagerProperty.cs" />
+    <Compile Include="Class\StringMember.cs" />
     <Compile Include="Class\StringProperty.cs" />
     <Compile Include="CompilationUnit.cs" />
     <Compile Include="Namespace.cs" />

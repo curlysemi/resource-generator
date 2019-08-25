@@ -6,6 +6,7 @@ namespace GammaFour.ResourceGenerator
 {
     using System;
     using System.Collections.Generic;
+    using DarkBond.ResourceGenerator.Class;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -20,16 +21,19 @@ namespace GammaFour.ResourceGenerator
         /// </summary>
         private string targetClassName;
 
+        private string originalString;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="StringProperty"/> class.
         /// </summary>
         /// <param name="targetClassName">The name of the target class.</param>
         /// <param name="key">The key used to reference this string.</param>
-        public StringProperty(string targetClassName, string key)
+        public StringProperty(string targetClassName, string key, string originalString)
         {
             // Initialize the object.
             this.targetClassName = targetClassName;
             this.Name = key;
+            this.originalString = originalString;
 
             //        /// <summary>
             //        /// Gets the resource string indexed by the MyResourceString key.
@@ -78,56 +82,7 @@ namespace GammaFour.ResourceGenerator
         {
             get
             {
-                // The document comment trivia is collected in this list.
-                List<SyntaxTrivia> comments = new List<SyntaxTrivia>();
-
-                //        /// <summary>
-                //        /// Gets the resource string indexed by the MyResourceString key.
-                //        /// </summary>
-                comments.Add(
-                    SyntaxFactory.Trivia(
-                        SyntaxFactory.DocumentationCommentTrivia(
-                            SyntaxKind.SingleLineDocumentationCommentTrivia,
-                            SyntaxFactory.SingletonList<XmlNodeSyntax>(
-                                SyntaxFactory.XmlText()
-                                .WithTextTokens(
-                                    SyntaxFactory.TokenList(
-                                        new[]
-                                        {
-                                            SyntaxFactory.XmlTextLiteral(
-                                                SyntaxFactory.TriviaList(SyntaxFactory.DocumentationCommentExterior("///")),
-                                                " <summary>",
-                                                string.Empty,
-                                                SyntaxFactory.TriviaList()),
-                                            SyntaxFactory.XmlTextNewLine(
-                                                SyntaxFactory.TriviaList(),
-                                                Environment.NewLine,
-                                                string.Empty,
-                                                SyntaxFactory.TriviaList()),
-                                            SyntaxFactory.XmlTextLiteral(
-                                                SyntaxFactory.TriviaList(SyntaxFactory.DocumentationCommentExterior("         ///")),
-                                                " Gets the resource string indexed by the " + this.Name + " key.",
-                                                string.Empty,
-                                                SyntaxFactory.TriviaList()),
-                                            SyntaxFactory.XmlTextNewLine(
-                                                SyntaxFactory.TriviaList(),
-                                                Environment.NewLine,
-                                                string.Empty,
-                                                SyntaxFactory.TriviaList()),
-                                            SyntaxFactory.XmlTextLiteral(
-                                                SyntaxFactory.TriviaList(SyntaxFactory.DocumentationCommentExterior("         ///")),
-                                                " </summary>",
-                                                string.Empty,
-                                                SyntaxFactory.TriviaList()),
-                                            SyntaxFactory.XmlTextNewLine(
-                                                SyntaxFactory.TriviaList(),
-                                                Environment.NewLine,
-                                                string.Empty,
-                                                SyntaxFactory.TriviaList())
-                                        }))))));
-
-                // This is the complete document comment.
-                return SyntaxFactory.TriviaList(comments);
+                return DocumentationHelper.GetDocumentationMessage(this.originalString);
             }
         }
 
