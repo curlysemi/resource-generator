@@ -75,11 +75,6 @@ namespace DarkBond.ResourceGenerator.Class
 
             var afterLines = new[]
             {
-                SyntaxFactory.XmlTextNewLine(
-                    SyntaxFactory.TriviaList(),
-                    Environment.NewLine,
-                    string.Empty,
-                    SyntaxFactory.TriviaList()),
                 SyntaxFactory.XmlTextLiteral(
                     SyntaxFactory.TriviaList(SyntaxFactory.DocumentationCommentExterior("         ///")),
                     " </summary>",
