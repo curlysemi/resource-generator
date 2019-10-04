@@ -51,6 +51,7 @@
     <Compile Include="Class\ResourceManagerProperty.cs" />
     <Compile Include="Class\StringMember.cs" />
     <Compile Include="Class\StringProperty.cs" />
+    <Compile Include="Class\TemplateStringMember.cs" />
     <Compile Include="CompilationUnit.cs" />
     <Compile Include="Namespace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

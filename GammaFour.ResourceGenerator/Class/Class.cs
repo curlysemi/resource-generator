@@ -305,7 +305,23 @@ namespace GammaFour.ResourceGenerator.Class
                                 }
                             }
 
-                            properties.Add(new StringMember(this.Name, xElement.Attribute(XName.Get("name")).Value, @params, originalString));
+                            string propertyName = xElement.Attribute(XName.Get("name")).Value;
+                            string usablePropertyName = propertyName;
+                            int specialStarIndex = propertyName.IndexOf('*');
+                            string templateID = null;
+                            if (specialStarIndex > -1)
+                            {
+                                usablePropertyName = propertyName.Substring(0, specialStarIndex);
+                                templateID = propertyName.Substring(specialStarIndex).Replace("*", string.Empty);
+                            }
+                            if (!string.IsNullOrWhiteSpace(usablePropertyName))
+                            {
+                                properties.Add(new StringMember(this.Name, usablePropertyName, @params, originalString));
+                                if (!string.IsNullOrWhiteSpace(templateID))
+                                {
+                                    properties.Add(new TemplateStringMember(this.Name, $"{templateID}__{usablePropertyName}", @params, originalString, templateID));
+                                }
+                            }
                         }
                         else
                         {
