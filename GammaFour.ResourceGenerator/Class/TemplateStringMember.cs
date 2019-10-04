@@ -155,7 +155,7 @@
             namedParams.Append("{ ");
             foreach (var p in parameters.Select((param, index) => new { param, index }))
             {
-                namedParams.Append($"{p.param}: '__{p.param}__'");
+                namedParams.Append($"{p.param}: __{p.param}__");
                 if (p.index == parameters.Count() - 1)
                 {
                     // last

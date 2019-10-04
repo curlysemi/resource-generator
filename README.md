@@ -54,7 +54,7 @@ The constants that you can use to make JS templates that can fit your pipeline a
         /// </summary>
         public static string ko__Example(object adjective)
         {
-            return ExampleFileName.ResourceManager.GetString("__RESOURCE_TEMPLATE__ko").Replace("__TEMPLATE_NAME__", "Example").Replace("__TARGET_CLASS_NAME__", "ExampleFileName").Replace("__NAMED_PARAMS_OBJ__", "{ adjective: '__adjective__' }").Replace("__adjective__", adjective.ToString());
+            return ExampleFileName.ResourceManager.GetString("__RESOURCE_TEMPLATE__ko").Replace("__TEMPLATE_NAME__", "Example").Replace("__TARGET_CLASS_NAME__", "ExampleFileName").Replace("__NAMED_PARAMS_OBJ__", "{ adjective: __adjective_' }").Replace("__adjective__", adjective.ToString());
         }
 ```
 
