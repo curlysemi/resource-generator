@@ -319,7 +319,7 @@ namespace GammaFour.ResourceGenerator.Class
                                 properties.Add(new StringMember(this.Name, usablePropertyName, @params, originalString));
                                 if (!string.IsNullOrWhiteSpace(templateID))
                                 {
-                                    properties.Add(new TemplateStringMember(this.Name, $"{templateID}__{usablePropertyName}", @params, originalString, templateID));
+                                    properties.Add(new TemplateStringMember(this.Name, usablePropertyName, @params, originalString, templateID));
                                 }
                             }
                         }

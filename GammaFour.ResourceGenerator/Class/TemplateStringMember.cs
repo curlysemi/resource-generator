@@ -63,7 +63,7 @@
 
             this.Syntax = SyntaxFactory.MethodDeclaration(SyntaxFactory.PredefinedType(
                     SyntaxFactory.Token(SyntaxKind.StringKeyword)),
-                    SyntaxFactory.Identifier(this.Name))
+                    SyntaxFactory.Identifier($"{templateID}__{this.Name}"))
                 .WithBody(this.Body(parameters))
                 .WithModifiers(this.Modifiers)
                 .AddParameterListParameters(parameterList.ToArray())
